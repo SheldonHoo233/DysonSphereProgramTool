@@ -4308,6 +4308,10 @@ function getRecipe() {
 }
 
 function generateBlueprint() {
+  if(!location.href.startsWith('https')){
+    cocoMessage.warning('请使用 https 协议访问以启用复制到剪切板功能')
+    return
+  }
   const recipe = getRecipe();
   const outputRecipe = {
     proliferator: recipe.proliferator,
