@@ -2681,15 +2681,55 @@ function getPfTitle(item, info) {
 }
 
 //找到这个物品的配方(同时赋值s[XX]里的 t 和 n )
-function find(name) {
+// cancel out input and output when [normalize_recipe=true]
+function find(name, normalize_recipe) {
   function get(item) {
-    for (var j = 0; j < item.s.length; j++) {
-      if (item.s[j].name == name) {
-        var o = $.extend(true, {}, item);
-        $.extend(o, item.s[j]);
+    var o = $.extend(true, {}, item);
+    if (normalize_recipe) {
+      // set undefined values to 1
+      for (var i = 0; i < o.s.length; i++) {
+        o.s[i].n = o.s[i].n || 1;
+      }
+      for (var i = 0; i < o.q.length; i++) {
+        o.q[i].n = o.q[i].n || 1;
+      }
+
+      // try to cancel out same components
+      for (var i = 0; i < o.s.length; i++) {
+        var s_name = o.s[i].name;
+        for (var j = 0; j < o.q.length; j++) {
+          if (s_name == o.q[j].name) {
+              // cancel out
+              var to_cancel = Math.min(o.s[i].n, o.q[j].n);
+              o.s[i].n -= to_cancel;
+              o.q[j].n -= to_cancel;
+          }
+        }
+      }
+
+      // remove those canceled to be zero
+      var o_s = o.s;
+      o.s = [];
+      for (var i = 0; i < o_s.length; i++) {
+        if (o_s[i].n === 0) continue;
+        o.s.push(o_s[i]);
+      }
+      var o_q = o.q;
+      o.q = [];
+      for (var i = 0; i < o_q.length; i++) {
+        if (o_q[i].n === 0) continue;
+        o.q.push(o_q[i]);
+      }
+    }
+
+    for (var j = 0; j < o.s.length; j++) {
+      if (o.s[j].name == name) {
+        $.extend(o, o.s[j]);
         return o;
       }
     }
+
+    throw new Error("配方错误！可能是因为该配方净输出为负。");
   }
 
   var pf = settings_pf[name];
@@ -3193,20 +3233,6 @@ function findOut(name) {
   }
   return null;
 }
-//其他产出是否包括在原料里面(如某配方 原料和产物都有氢)
-function getSameNameWithSource(item, itemName) {
-  for (var i = 0; i < item.s.length; i++) {
-    if (item.s[i].name != itemName) {
-      for (var j = 0; item.q && j < item.q.length; j++) {
-        var q = item.q[j];
-        if (q.name == item.s[i].name) {
-          return q.name;
-        }
-      }
-    }
-  }
-  return null;
-}
 var ig_names = []; //排除的物品
 //加载需求
 function loadNumber(itemName, n) {
@@ -3222,23 +3248,8 @@ function loadNumber(itemName, n) {
     ) {
       return;
     }
-    var item = find(itemName);
+    var item = find(itemName, true); // [normalize_recipe=true]
     var info = getValue(itemName);
-    var sameName = getSameNameWithSource(item, itemName);
-    if (sameName) {
-      for (var i = 0; i < item.s.length; i++) {
-        if (item.s[i].name == sameName) {
-          for (var j = 0; item.q && j < item.q.length; j++) {
-            var q = item.q[j];
-            if (q.name == sameName) {
-              var minNumber = Math.min(q.n || 1, item.s[i].n || 1);
-              q.n = (q.n || 1) - minNumber;
-              item.s[i].n = (item.s[i].n || 1) - minNumber; //抵消
-            }
-          }
-        }
-      }
-    }
 
     addXH(itemName, n);
     for (var i = 0; i < item.s.length; i++) {
