@@ -3695,9 +3695,16 @@ function selectAccValue(id, accValue) {
   update_all();
 }
 function selectPf(name, value) {
-  settings_pf[name] = parseInt(value);
+  let old_settings_pf = $.extend(true, {}, settings_pf);
+  try {
+    settings_pf[name] = parseInt(value);
+    update_all();
+  } catch (e) {
+    settings_pf = old_settings_pf;
+    update_all();
+    throw e;
+  }
   saveSettingPf();
-  update_all();
 }
 function f_tag(obj) {
   var jrow = $(obj).parents("tr:first");
