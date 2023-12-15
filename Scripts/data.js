@@ -2949,7 +2949,7 @@ function f_initData() {
     var ms = [];
     if (item.m == "研究站") {
       ms = [
-        { name: "研究站", speed: 1 },
+        { name: "矩阵研究站", speed: 1 },
         { name: "自演化研究站", speed: 3 }
 	  ];
     }
@@ -3762,6 +3762,19 @@ function f_init() {
     var value = $("#chemical").val();
     $(data).each(function () {
       if (this.mName == "化工设备") {
+        // TODO: 下面的初始化代码还能优化一下
+        settingsLocal[this.id] = settingsLocal[this.id] || {};
+        settingsLocal[this.id].m = value;
+      }
+    });
+
+    saveSetting();
+    update_all();
+  });
+  $("#research").change(function () {
+    var value = $("#research").val();
+    $(data).each(function () {
+      if (this.mName == "研究站") {
         // TODO: 下面的初始化代码还能优化一下
         settingsLocal[this.id] = settingsLocal[this.id] || {};
         settingsLocal[this.id].m = value;
