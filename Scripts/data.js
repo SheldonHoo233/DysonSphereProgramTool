@@ -3019,7 +3019,7 @@ function f_initData() {
   });
   // console.log(data);
 }
-var pointLength = 1;
+var pointLength = 3;
 var settingsLocal = {}; //不存储cookie
 var settings = {};
 function saveData(key, value) {
