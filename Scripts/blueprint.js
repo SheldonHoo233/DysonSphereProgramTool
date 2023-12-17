@@ -319,6 +319,43 @@ const itemMap = {
   gravityMatrix: { name: "gravityMatrix", iconId: 6005, remark: "绿矩阵" },
   universeMatrix: { name: "universeMatrix", iconId: 6006, remark: "宇宙矩阵" },
   logisticsBot: { name: "logisticsBot", iconId: 5003, remark: "配送运输机" },
+  燃烧单元: { name: "燃烧单元", iconId: 1128, remark: "燃烧单元" },
+  爆破单元: { name: "爆破单元", iconId: 1129, remark: "爆破单元" },
+  晶石爆破单元: { name: "晶石爆破单元", iconId: 1130, remark: "晶石爆破单元" },
+  机枪弹箱: { name: "机枪弹箱", iconId: 1601, remark: "机枪弹箱" },
+  钛化弹箱: { name: "钛化弹箱", iconId: 1602, remark: "钛化弹箱" },
+  超合金弹箱: { name: "超合金弹箱", iconId: 1603, remark: "超合金弹箱" },
+  导弹组: { name: "导弹组", iconId: 1609, remark: "导弹组" },
+  超音速导弹组: { name: "超音速导弹组", iconId: 1610, remark: "超音速导弹组" },
+  引力导弹组: { name: "引力导弹组", iconId: 1611, remark: "引力导弹组" },
+  炮弹组: { name: "炮弹组", iconId: 1604, remark: "炮弹组" },
+  高爆炮弹组: { name: "高爆炮弹组", iconId: 1605, remark: "高爆炮弹组" },
+  晶石炮弹组: { name: "晶石炮弹组", iconId: 1606, remark: "晶石炮弹组" },
+  原型机: { name: "原型机", iconId: 5101, remark: "原型机" },
+  精准无人机: { name: "精准无人机", iconId: 5102, remark: "精准无人机" },
+  攻击无人机: { name: "攻击无人机", iconId: 5103, remark: "攻击无人机" },
+  护卫舰: { name: "护卫舰", iconId: 5111, remark: "护卫舰" },
+  驱逐舰: { name: "驱逐舰", iconId: 5112, remark: "驱逐舰" },
+  等离子胶囊: { name: "等离子胶囊", iconId: 1607, remark: "等离子胶囊" },
+  反物质胶囊: { name: "反物质胶囊", iconId: 1608, remark: "反物质胶囊" },
+  重组式制造台: { name: "重组式制造台", iconId: 2318, remark: "重组式制造台" },
+  自演化研究站: { name: "自演化研究站", iconId: 2902, remark: "自演化研究站" },
+  负熵熔炉: { name: "负熵熔炉", iconId: 2319, remark: "负熵熔炉" },
+  高斯机枪塔: { name: "高斯机枪塔", iconId: 3001, remark: "高斯机枪塔" },
+  导弹防御塔: { name: "导弹防御塔", iconId: 3005, remark: "导弹防御塔" },
+  聚爆加农炮: { name: "聚爆加农炮", iconId: 3003, remark: "聚爆加农炮" },
+  高频激光塔: { name: "高频激光塔", iconId: 3002, remark: "高频激光塔" },
+  磁化电浆炮: { name: "磁化电浆炮", iconId: 3004, remark: "磁化电浆炮" },
+  战场分析基站: { name: "战场分析基站", iconId: 3009, remark: "战场分析基站" },
+  信号塔: { name: "信号塔", iconId: 3007, remark: "信号塔" },
+  行星护盾发生器: { name: "行星护盾发生器", iconId: 3008, remark: "行星护盾发生器" },
+  动力引擎: { name: "动力引擎", iconId: 1407, remark: "动力引擎" },
+  奇异湮灭燃料棒: { name: "奇异湮灭燃料棒", iconId: 1804, remark: "奇异湮灭燃料棒" },
+  负熵奇点: { name: "负熵奇点", iconId: 5204, remark: "负熵奇点" },
+  能量碎片: { name: "能量碎片", iconId: 5206, remark: "能量碎片" },
+  硅基神经元: { name: "硅基神经元", iconId: 5202, remark: "硅基神经元" },
+  物质重组器: { name: "物质重组器", iconId: 5203, remark: "物质重组器" },
+  核心素: { name: "核心素", iconId: 5205, remark: "核心素" },
 
   templateItem: { name: "templateItem", iconId: 0, remark: "模板" },
 };
@@ -358,6 +395,18 @@ const buildingMap = {
     category: productionCategory.smelter,
     slotMaxIndex: 7,
   },
+  负熵熔炉: {
+    remark: "负熵熔炉",
+    name: "负熵熔炉",
+    itemId: 2319,
+    //FIXME
+    modelIndex: 194,
+    productionSpeed: 3,
+    size: { x: 3, y: 3 },
+    type: buildingType.production,
+    category: productionCategory.smelter,
+    slotMaxIndex: 7,
+  },
   assemblingMachineMk1: {
     remark: "制造台Mk.I",
     name: "assemblingMachineMk1",
@@ -386,6 +435,18 @@ const buildingMap = {
     itemId: 2305,
     modelIndex: 67,
     productionSpeed: 1.5,
+    size: { x: 3, y: 3 },
+    type: buildingType.production,
+    category: productionCategory.assembling,
+    slotMaxIndex: 8,
+  },
+  重组式制造台: {
+    remark: "重组式制造台",
+    name: "重组式制造台",
+    itemId: 2318,
+    //FIXME
+    modelIndex: 67,
+    productionSpeed: 3,
     size: { x: 3, y: 3 },
     type: buildingType.production,
     category: productionCategory.assembling,
@@ -436,6 +497,18 @@ const buildingMap = {
     name: "lab",
     itemId: 2901,
     modelIndex: 70,
+    productionSpeed: 1,
+    type: buildingType.production,
+    category: productionCategory.lab,
+    height: 3,
+    slotMaxIndex: 11,
+  },
+  自演化研究站: {
+    remark: "自演化研究站",
+    name: "自演化研究站",
+    itemId: 2902,
+    //FIXME
+    modelIndex: 71,
     productionSpeed: 1,
     type: buildingType.production,
     category: productionCategory.lab,
@@ -640,6 +713,38 @@ const recipeMap = {
   "titaniumAlloy+frameMaterial+superMagneticRing+quantumChip+opticalGratingCrystal=advancedMiningMachine": 119, // 大型采矿机
   "gravitonLens=criticalPhoton": 74, // 临界光子
   "hydrogen=deuterium+hydrogen": -1, // 重氢 氢
+  "magneticCoil+copperIngot=动力引擎": 105, //动力引擎
+  "coal=燃烧单元": 133, //燃烧单元
+  "燃烧单元+plastic+sulfuricAcid=爆破单元": 134, //爆破单元
+  "爆破单元+casimirCrystal+crystalSilicon=晶石爆破单元": 135, //晶石爆破单元
+  "copperIngot=机枪弹箱": 136, //机枪弹箱
+  "机枪弹箱+titaniumIngot=钛化弹箱": 137, //钛化弹箱
+  "钛化弹箱+titaniumAlloy=超合金弹箱": 138, //超合金弹箱
+  "copperIngot+circuitBoard+燃烧单元+动力引擎=导弹组": 144, //导弹组
+  "导弹组+processor+爆破单元+thruster=超音速导弹组": 145, //超音速导弹组
+  "超音速导弹组+晶石爆破单元+strangeMatter=引力导弹组": 146, //引力导弹组
+  "copperIngot+燃烧单元=炮弹组": 139, //炮弹组
+  "炮弹组+titaniumIngot+爆破单元=高爆炮弹组": 140, //高爆炮弹组
+  "高爆炮弹组+titaniumAlloy+晶石爆破单元=晶石炮弹组": 141, //晶石炮弹组
+  "ironIngot+动力引擎+circuitBoard+plasmaExciter=原型机": 147, //原型机
+  "原型机+electromagneticTurbine+circuitBoard+photonCombiner=精准无人机": 148, //精准无人机
+  "精准无人机+electromagneticTurbine+processor+particleContainer=攻击无人机": 149, //攻击无人机
+  "titaniumAlloy+reinforcedThruster+processor+particleContainer=护卫舰": 150, //护卫舰
+  "frameMaterial+reinforcedThruster+processor+strangeMatter=驱逐舰": 151, //驱逐舰
+  "graphene+magnet+deuterium=等离子胶囊": 142, //等离子胶囊
+  "等离子胶囊+particleContainer+hydrogen+antimatter=反物质胶囊": 143, //反物质胶囊
+  "assemblingMachineMk3+物质重组器+能量碎片+quantumChip=重组式制造台": 154, //重组式制造台
+  "lab+硅基神经元+能量碎片+quantumChip=自演化研究站": 153, //自演化研究站
+  "planeSmelter+负熵奇点+能量碎片+quantumChip=负熵熔炉": 155, //负熵熔炉
+  "ironIngot+gear+circuitBoard+magneticCoil=高斯机枪塔": 125, //高斯机枪塔
+  "steel+electricMotor+circuitBoard+动力引擎=导弹防御塔": 129, //导弹防御塔
+  "steel+electricMotor+circuitBoard+superMagneticRing=聚爆加农炮": 127, //聚爆加农炮
+  "steel+plasmaExciter+circuitBoard+photonCombiner=高频激光塔": 126, //高频激光塔
+  "titaniumAlloy+titaniumGlass+superMagneticRing+plasmaExciter+electromagneticTurbine=磁化电浆炮": 128, //磁化电浆炮
+  "steel+circuitBoard+microcrystallineComponent+动力引擎=战场分析基站": 152, //战场分析基站
+  "wirelessPowerTower+steel+crystalSilicon=信号塔": 131, //信号塔
+  "steel+electromagneticTurbine+superMagneticRing+particleContainer=行星护盾发生器": 132, //行星护盾发生器
+  "antimatterFuelRod+核心素+strangeMatter+frameMaterial=奇异湮灭燃料棒": 156,//奇异湮灭燃料棒
 };
 
 class Blueprint {
