@@ -399,8 +399,7 @@ const buildingMap = {
     remark: "负熵熔炉",
     name: "负熵熔炉",
     itemId: 2319,
-    //FIXME
-    modelIndex: 194,
+    modelIndex: 457,
     productionSpeed: 3,
     size: { x: 3, y: 3 },
     type: buildingType.production,
@@ -444,8 +443,7 @@ const buildingMap = {
     remark: "重组式制造台",
     name: "重组式制造台",
     itemId: 2318,
-    //FIXME
-    modelIndex: 67,
+    modelIndex: 456,
     productionSpeed: 3,
     size: { x: 3, y: 3 },
     type: buildingType.production,
@@ -507,9 +505,8 @@ const buildingMap = {
     remark: "自演化研究站",
     name: "自演化研究站",
     itemId: 2902,
-    //FIXME
-    modelIndex: 71,
-    productionSpeed: 1,
+    modelIndex: 455,
+    productionSpeed: 3,
     type: buildingType.production,
     category: productionCategory.lab,
     height: 3,
@@ -1815,8 +1812,8 @@ class Blueprint {
           labBuilding.localOffset[0].z = buildingMap.lab.height * layers;
           labBuilding.localOffset[1].z = buildingMap.lab.height * layers;
           labBuilding.yaw = newBuilding.yaw;
-          labBuilding.itemId = buildingMap.lab.itemId;
-          labBuilding.modelIndex = buildingMap.lab.modelIndex;
+          labBuilding.itemId = buildingMap[subRecipe.building.name].itemId;
+          labBuilding.modelIndex = buildingMap[subRecipe.building.name].modelIndex;
           labBuilding.recipeId = parseInt(subRecipe.recipeID);
           labBuilding.inputObjIdx = this.buildingIndex - 1;
           labBuilding.outputToSlot = 14;
@@ -3184,6 +3181,9 @@ class Blueprint {
       2309,
       2310,
       2317, // 追加量子化工厂
+      2318, // 重组式制造台
+      2319, // 负熵熔炉
+      2902, // 自演化研究站
     ]);
     const K = Int32Array.of(
       0xd76aa478,
