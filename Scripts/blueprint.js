@@ -2204,27 +2204,38 @@ class Blueprint {
   }
 
   sortItemSummary(itemSummary) {
-    // 排序，把原料和终产物放到前面
-    let newSummary = {};
-    for (let key in itemSummary) {
-      if (itemSummary[key].fromBuildingNum === 0) {
-        newSummary[key] = itemSummary[key];
-      }
-    }
-    for (let key in itemSummary) {
-      if (itemSummary[key].toBuildingNum === 0) {
-        newSummary[key] = itemSummary[key];
-      }
-    }
-    for (let key in itemSummary) {
-      if (
-        itemSummary[key].toBuildingNum !== 0 &&
-        itemSummary[key].fromBuildingNum !== 0
-      ) {
-        newSummary[key] = itemSummary[key];
-      }
-    }
-    return newSummary;
+    // 排序，增产剂(取最高等级)、原料、终产物、多余产物(精炼油、氢、石墨烯、重氢)、其余中间产物
+		let newSummary = {};
+		let proliferator = ['proliferatorMk3', 'proliferatorMk2', 'proliferatorMk1'];
+		let outItem = ['refinedOil', 'hydrogen', 'graphene', 'deuterium'];
+		for (let key in proliferator) {
+			if (itemSummary[proliferator[key]] && itemSummary[proliferator[key]].toBuildingNum === 0) {
+				newSummary[proliferator[key]] = itemSummary[proliferator[key]];
+				break;
+			}
+		}
+		for (let key in itemSummary) {
+			if (itemSummary[key].fromBuildingNum === 0) {
+				newSummary[key] = itemSummary[key];
+			}
+		}
+		for (let key in itemSummary) {
+			if (itemSummary[key].toBuildingNum === 0) {
+				newSummary[key] = itemSummary[key];
+			}
+		}
+		for (let key in outItem) {
+			if (itemSummary[outItem[key]] &&
+				itemSummary[outItem[key]].fromBuildingNum - itemSummary[outItem[key]].toBuildingNum > 0) {
+				newSummary[outItem[key]] = itemSummary[outItem[key]];
+			}
+		}
+		for (let key in itemSummary) {
+			if (itemSummary[key].toBuildingNum !== 0 && itemSummary[key].fromBuildingNum !== 0) {
+				newSummary[key] = itemSummary[key];
+			}
+		}
+		return newSummary;
   }
 
   generateConveyorBelts() {
