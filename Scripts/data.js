@@ -4202,12 +4202,13 @@ function update_all() {
     if (img.indexOf("<img") == -1) {
       img = "X" + img;
     }
+    // 当生产精炼油/氢/石墨烯/重氢的生产设施为空时，显示0生产设施以跳过“存在生产设施为空的配方”检验
     var outitem = {
       name: xh_list[i].name,
       number1: xh_list[i].value.toFixed(0),
-      number2: xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : "",
+      number2: xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (['精炼油', '氢', '石墨烯', '重氢'].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : ''),
       number2full:
-        img + (xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : ""),
+        img + (xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (['精炼油', '氢', '石墨烯', '重氢'].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : '')),
       time: info.time.toFixed(pointLength),
       t: info.t.toFixed(pointLength),
       speed: info.speed.toFixed(pointLength),
