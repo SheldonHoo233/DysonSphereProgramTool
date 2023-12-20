@@ -2903,7 +2903,7 @@ var data = [
     noExtra: true,
 },
 ];
-var manualGzSpeed = false;
+var manualGzSpeed = false; //是否采用手动输入的临界光子每分钟产量
 
 var energyData = {};
 energyData["研究站"] = 0.48;
@@ -4055,31 +4055,31 @@ function checkResult() {
   }
 }
 
-
+//每分钟需求: 引力透镜=0.1*接收塔=0.1*光子需求量/光子产量, 光子产量: 12(透镜×200%)/15(增产Ⅰ×250%)/18(增产Ⅱ×300%)/24(增产Ⅲ×400%)
 function fixGzSpeed() {
   let fixedGzSpeed;
   $(data).each(function () {
-    if (this.s && this.s[0].name == '临界光子') {
+    if (this.s && this.s[0].name == "临界光子") {
       if (this.m) {
         for (var i = 0; i < this.m.length; i++) {
-          if (this.m[i].name == '射线接收塔') {
+          if (this.m[i].name == "射线接收塔") {
             for (var j = 0; j < this.q.length; j++) {
-              if (this.q[j].name == '引力透镜') {
+              if (this.q[j].name == "引力透镜") {
                 if (manualGzSpeed) {
-                  fixedGzSpeed = parseFloat($('#gzSpeed').val());
+                  fixedGzSpeed = parseFloat($("#gzSpeed").val());
                 } else {
                   item = find("临界光子", true);
                   accType = (settings[item.id] || {}).accType || defaultAccType;
                   accValue = (settings[item.id] || {}).accValue || defaultAccValue;
-                  if (accValue === '加速') {
+                  if (accValue === "加速") {
                     switch (accType) {
-                      case '增产剂Mk.Ⅰ':
+                      case "增产剂Mk.Ⅰ":
                         fixedGzSpeed = 15;
                         break;
-                      case '增产剂Mk.Ⅱ':
+                      case "增产剂Mk.Ⅱ":
                         fixedGzSpeed = 18;
                         break;
-                      case '增产剂Mk.Ⅲ':
+                      case "增产剂Mk.Ⅲ":
                         fixedGzSpeed = 24;
                         break;
                     }
@@ -4090,7 +4090,7 @@ function fixGzSpeed() {
                 this.q[j].n = (0.1 / fixedGzSpeed).toFixed(6);
               }
             }
-            this.t = (60 / fixedGzSpeed) * (this.q && this.q.length ? 0.5 : 1);
+            this.t = (this.q && this.q.length) ? (60 / fixedGzSpeed) : 10;
           }
         }
       }
@@ -4153,7 +4153,9 @@ function update_all() {
       if (accValue == "增产" && item.noExtra) accValue = "无";
       if (item.q.length == 0) accValue = "无";
 
-      xh.value2 /= getAccSpeed(accType, accValue);
+      if (item.name !== "临界光子" || item.mName !== "射线接收塔") {
+        xh.value2 /= getAccSpeed(accType, accValue);
+      }
     }
   }
   //mergeMul();//处理合并 多个产出使用了同一个配方 ,暂时弃用，checkResult会处理这种情况
@@ -4243,9 +4245,9 @@ function update_all() {
     var outitem = {
       name: xh_list[i].name,
       number1: xh_list[i].value.toFixed(0),
-      number2: xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (['精炼油', '氢', '石墨烯', '重氢'].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : ''),
+      number2: xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (["精炼油", "氢", "石墨烯", "重氢"].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : ""),
       number2full:
-        img + (xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (['精炼油', '氢', '石墨烯', '重氢'].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : '')),
+        img + (xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (["精炼油", "氢", "石墨烯", "重氢"].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : "")),
       time: info.time.toFixed(pointLength),
       t: info.t.toFixed(pointLength),
       speed: info.speed.toFixed(pointLength),
