@@ -16,7 +16,7 @@ var data = [
         n: 1			n ：需求产物数量
     }],
     t: 1,				t ：生产时间(秒)
-    noExtra: true,		noExtra : 提供true增产剂只允许加速 (如果不提供就是false)
+    noExtra: true,		noExtra(添加增产剂是否不可"增产"): false(不填写该行时的默认值,加速/增产), true(加速), null(无效果;如能量枢纽为蓄电池充能的特例; 没有q属性的物品,如原矿类无需填写本行)
 },
 */
 
@@ -111,6 +111,7 @@ var data = [
     }],
     m: "能量枢纽",
     t: 1,
+    noExtra: null,
 }, {
     s: [{
         name: "蓝矩阵"
@@ -2229,6 +2230,7 @@ var data = [
         n: 0.008333
     }],
     t: 5,
+    noExtra: true,
 }, {
     s: [{
         name: "机枪弹箱",
@@ -2901,6 +2903,7 @@ var data = [
     noExtra: true,
 },
 ];
+var manualGzSpeed = false;
 
 var energyData = {};
 energyData["研究站"] = 0.48;
@@ -3623,20 +3626,9 @@ function f_init() {
     update_all();
   });
   $("#gzSpeed").change(function () {
-    $(data).each(function () {
-      if (this.s && this.s[0].name == "临界光子") {
-        if (this.m) {
-          for (var i = 0; i < this.m.length; i++) {
-            if (this.m[i].name == "射线接收塔") {
-              this.t =
-                (60 / parseFloat($("#gzSpeed").val())) *
-                (this.q && this.q.length ? 0.5 : 1);
-            }
-          }
-        }
-      }
-    });
+    manualGzSpeed = true;
     update_all();
+    manualGzSpeed = false;
   });
 
   /*产量：可燃冰 0.65/s 氢0.25/s
@@ -3951,7 +3943,7 @@ function loadNumber(itemName, n) {
         // 自喷涂
         if ($("#selfAcc")[0].checked) tm = tm * v - 1;
         if (accValue == "增产" && item.noExtra) accValue = "无";
-        if (item.q.length == 0) accValue = "无";
+        if (item.q.length == 0 || item.noExtra === null) accValue = "无";
 
         if (accValue == "加速") {
           accTotal += r / tm;
@@ -4062,12 +4054,57 @@ function checkResult() {
     }
   }
 }
+
+
+function fixGzSpeed() {
+  let fixedGzSpeed;
+  $(data).each(function () {
+    if (this.s && this.s[0].name == '临界光子') {
+      if (this.m) {
+        for (var i = 0; i < this.m.length; i++) {
+          if (this.m[i].name == '射线接收塔') {
+            for (var j = 0; j < this.q.length; j++) {
+              if (this.q[j].name == '引力透镜') {
+                if (manualGzSpeed) {
+                  fixedGzSpeed = parseFloat($('#gzSpeed').val());
+                } else {
+                  item = find("临界光子", true);
+                  accType = (settings[item.id] || {}).accType || defaultAccType;
+                  accValue = (settings[item.id] || {}).accValue || defaultAccValue;
+                  if (accValue === '加速') {
+                    switch (accType) {
+                      case '增产剂Mk.Ⅰ':
+                        fixedGzSpeed = 15;
+                        break;
+                      case '增产剂Mk.Ⅱ':
+                        fixedGzSpeed = 18;
+                        break;
+                      case '增产剂Mk.Ⅲ':
+                        fixedGzSpeed = 24;
+                        break;
+                    }
+                  } else {
+                    fixedGzSpeed = 12;
+                  }
+                }
+                this.q[j].n = (0.1 / fixedGzSpeed).toFixed(6);
+              }
+            }
+            this.t = (60 / fixedGzSpeed) * (this.q && this.q.length ? 0.5 : 1);
+          }
+        }
+      }
+    }
+  });
+}
+
 function update_all() {
   var outResult = [];
   xh_list = [];
   out_list = [];
   single_list = [];
 
+  fixGzSpeed();
   for (var m = 0; m < singleMake.length; m++) {
     var item = data[singleMake[m].id]; //配方
     var info = getValue(item);
@@ -4275,7 +4312,7 @@ function update_all() {
     var accType = (settings[item.id] || {}).accType || defaultAccType;
     var accValue = (settings[item.id] || {}).accValue || defaultAccValue;
     if (accValue == "增产" && item.noExtra) accValue = "无";
-    if (item.q.length == 0) accValue = "无";
+    if (item.q.length == 0 || item.noExtra === null) accValue = "无";
 
     ["增产剂Mk.Ⅰ", "增产剂Mk.Ⅱ", "增产剂Mk.Ⅲ"].forEach(function (one) {
       outitem.accType.push({
@@ -4292,7 +4329,7 @@ function update_all() {
     });
 
     ["无", "加速", "增产"].forEach(function (one) {
-      if (one != "无" && item.q.length == 0) return;
+      if (one != "无" && (item.q.length == 0 || item.noExtra === null)) return;
       if (one == "增产" && item.noExtra) return;
       outitem.accValue.push({
         class: one == accValue ? "m selected" : "m",
