@@ -725,7 +725,7 @@ const recipeMap = {
   "高爆炮弹组+titaniumAlloy+晶石爆破单元=晶石炮弹组": 141, //晶石炮弹组
   "ironIngot+动力引擎+circuitBoard+plasmaExciter=原型机": 147, //原型机
   "原型机+electromagneticTurbine+circuitBoard+photonCombiner=精准无人机": 148, //精准无人机
-  "精准无人机+electromagneticTurbine+processor+particleContainer=攻击无人机": 149, //攻击无人机
+  "原型机+electromagneticTurbine+processor+particleContainer=攻击无人机": 149, //攻击无人机
   "titaniumAlloy+reinforcedThruster+processor+particleContainer=护卫舰": 150, //护卫舰
   "frameMaterial+reinforcedThruster+processor+strangeMatter=驱逐舰": 151, //驱逐舰
   "graphene+magnet+deuterium=等离子胶囊": 142, //等离子胶囊
@@ -824,9 +824,7 @@ class Blueprint {
           recipeStr += "+" + item.name;
         }
       }
-      console.log(recipeStr);
       if (!recipeMap[recipeStr] || recipeMap[recipeStr] === -1) {
-        console.log(recipeMap[recipeStr]);
         cocoMessage.warning(
           `包含不支持的配方: ${recipeStr.replace(
             "=",
