@@ -737,7 +737,7 @@ const recipeMap = {
   "steel+electricMotor+circuitBoard+动力引擎=导弹防御塔": 129, //导弹防御塔
   "steel+electricMotor+circuitBoard+superMagneticRing=聚爆加农炮": 127, //聚爆加农炮
   "steel+plasmaExciter+circuitBoard+photonCombiner=高频激光塔": 126, //高频激光塔
-  "titaniumAlloy+titaniumGlass+superMagneticRing+plasmaExciter+electromagneticTurbine=磁化电浆炮": 128, //磁化电浆炮
+  "titaniumAlloy+titaniumGlass+superMagneticRing+plasmaExciter+processor=磁化电浆炮": 128, //磁化电浆炮
   "steel+circuitBoard+microcrystallineComponent+动力引擎=战场分析基站": 152, //战场分析基站
   "wirelessPowerTower+steel+crystalSilicon=信号塔": 131, //信号塔
   "steel+electromagneticTurbine+superMagneticRing+particleContainer=行星护盾发生器": 132, //行星护盾发生器
@@ -824,7 +824,9 @@ class Blueprint {
           recipeStr += "+" + item.name;
         }
       }
+      console.log(recipeStr);
       if (!recipeMap[recipeStr] || recipeMap[recipeStr] === -1) {
+        console.log(recipeMap[recipeStr]);
         cocoMessage.warning(
           `包含不支持的配方: ${recipeStr.replace(
             "=",
