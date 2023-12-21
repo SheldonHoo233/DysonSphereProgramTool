@@ -319,3 +319,65 @@
             font-size: 16px;
         }
 
+        /* Style for the custom dropdown container */
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Style for the dropdown button */
+        .custom-dropdown button {
+            width: 12rem;
+            border: 1px solid #333;
+            cursor: pointer;
+            background-color: #e5e5e5;
+            border-radius: 4px;
+        }
+        .custom-dropdown button:hover {
+            background-color: #ddd;
+        }
+
+        /* Style for the dropdown content */
+        .custom-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 12rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 500px; /* Set the maximum height as needed */
+            overflow-y: auto; /* Add a scrollbar when content overflows */
+        }
+
+        /* Style for each dropdown item group */
+        .group {
+            border-bottom: 1px solid #ccc;
+        }
+
+        /* Style for the group name */
+        .group-name {
+            padding: 4px;
+            font-weight: bold;
+        }
+
+        /* Style for each dropdown item */
+        .group-item {
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Hover effect for dropdown items */
+        .group-item:hover {
+            background-color: #66ccff;
+        }
+
+        /* Style for the icon in each dropdown item */
+        .group-item img {
+            width: 20px;
+            margin-right: 6px;
+        }
